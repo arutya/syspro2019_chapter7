@@ -10,26 +10,47 @@
         <!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
     </head>
     <body>
-        <h1>ã‚·ã‚¹ãƒ†ãƒ ãƒ—ãƒ­ã‚°ãƒ©ãƒŸãƒ³ã‚°</h1>
+        <h1>ƒVƒXƒeƒ€ƒvƒƒOƒ‰ƒ~ƒ“ƒO</h1>
         
         <div>
             <ul id="messages"></ul>
-            <input id="name" placeholder="åå‰">
-            <!-- TODO1 ã“ã“ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å…¥åŠ›ãƒ•ã‚©ãƒ¼ãƒ ã‚’è¿½åŠ  -->
-            <!-- TODO1 ã“ã“ã«é€ä¿¡ãƒœã‚¿ãƒ³ã‚’è¿½åŠ  -->
+            <input id="name" placeholder="–¼‘O">
+            <!-- TODO1 ‚±‚±‚ÉƒƒbƒZ[ƒW“ü—ÍƒtƒH[ƒ€‚ğ’Ç‰Á -->
+            <input id="message" placeholder="ƒƒbƒZ[ƒW">
+            <!-- TODO1 ‚±‚±‚É‘—Mƒ{ƒ^ƒ“‚ğ’Ç‰Á -->
+            <input type="submit" id="send" value="“Še">
             
         </div>
         <script>
-            // TODO0 ã“ã“ã«è¨­å®šæƒ…å ±ã‚’è²¼ã‚Šä»˜ã‘ã‚‹  
+            // TODO0 ‚±‚±‚Éİ’èî•ñ‚ğ“\‚è•t‚¯‚é  
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
             
             
             
-            // ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã®å‚ç…§ã‚’æº–å‚™
+            // ƒf[ƒ^ƒx[ƒX‚ÌQÆ‚ğ€”õ
             var messagesRef = firebase.firestore().collection('messages')
         
-            // TODO4 ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è¡¨ç¤º
+            // TODO4 ƒƒbƒZ[ƒW‚ğ•\¦
+			messagesRef.onSnapshot(function(snapshot) {
+                snapshot.docChanges.forEach(function(change) {
+                    if (change.type === 'added') {
+                        $('<div id="box" class="line__left">').appendTo('#messages');
+                        $('<div>').text(change.doc.data().name).appendTo('#box');
+                        $('<div class="text">').text(change.doc.data().body).appendTo('#box');
+                    }
+                });
+            });
             
-            // TODO2 é€ä¿¡ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚ŒãŸæ™‚ã®å‡¦ç†
+            // TODO2 ‘—Mƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚Ìˆ—
+            $('#send').click(function() {
+                $('<p>’Ç‰Á‚µ‚Ü‚µ‚½</p>').appendTo('#messages');
+                
+				messagesRef.add({
+                    name: $('#name').val(),
+                    body: $('#message').val(),
+                });
+            });
             
         </script>
     </body>
